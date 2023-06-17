@@ -10,6 +10,7 @@ import com.question_app.demo.request.CommentCreateRequest;
 import com.question_app.demo.request.CommentUpdateRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +56,7 @@ public class CommentService {
                 comment.setPost(post.get());
                 comment.setText(commentCreateRequest.getComment());
                 comment.setUser(user.get());
+                comment.setCreateDate(new Date());
                 return commentRepository.save(comment);
             }
         }

@@ -2,6 +2,7 @@ package com.question_app.demo.controller;
 
 import com.question_app.demo.entities.User;
 import com.question_app.demo.repo.UserRepository;
+import com.question_app.demo.response.UserResponse;
 import com.question_app.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +30,18 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public User getUser(@PathVariable Long userId) {
-        //custom exception
-        return this.userService.findUser(userId);
+    public UserResponse getUser(@PathVariable Long userId) {
+        return new UserResponse(this.userService.findUser(userId));
     }
 
     @PutMapping("/{userId}")
     public User updateUser(@PathVariable Long userId, @RequestBody User currentUser) {
         return userService.updateUser(userId, currentUser);
+    }
+
+    @GetMapping("/activity/{userId}")
+    public List<Object> getUserActivity(@PathVariable Long userId){
+        return userService.getUserActivity(userId);
     }
 
     @DeleteMapping("/{userId}")
