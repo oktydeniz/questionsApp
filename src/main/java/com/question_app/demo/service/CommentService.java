@@ -8,11 +8,14 @@ import com.question_app.demo.repo.PostRepository;
 import com.question_app.demo.repo.UserRepository;
 import com.question_app.demo.request.CommentCreateRequest;
 import com.question_app.demo.request.CommentUpdateRequest;
+import com.question_app.demo.response.CommentResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -27,15 +30,16 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
-    public List<Comment> getAll(Optional<Long> userId, Optional<Long> postId) {
+    public List<CommentResponse> getAll(Optional<Long> userId, Optional<Long> postId) {
+        List<Comment> list = new ArrayList<>();
         if (postId.isPresent() && userId.isPresent()) {
-            return commentRepository.findByPostIdAndUserId(postId.get(), userId.get());
+            list =  commentRepository.findByPostIdAndUserId(postId.get(), userId.get());
         } else if (postId.isPresent()) {
-            return commentRepository.findByPostId(postId.get());
+            list = commentRepository.findByPostId(postId.get());
         } else if (userId.isPresent()) {
-            return commentRepository.findByUserId(userId.get());
+            list =  commentRepository.findByUserId(userId.get());
         }
-        return commentRepository.findAll();
+        return list.stream().map(CommentResponse::new).collect(Collectors.toList());
     }
 
     public Comment findById(Long id) {

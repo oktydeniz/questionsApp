@@ -3,6 +3,7 @@ package com.question_app.demo.controller;
 import com.question_app.demo.entities.Comment;
 import com.question_app.demo.request.CommentCreateRequest;
 import com.question_app.demo.request.CommentUpdateRequest;
+import com.question_app.demo.response.CommentResponse;
 import com.question_app.demo.service.CommentService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class CommentController {
     }
 
     @GetMapping
-    public List<Comment> getComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId) {
+    public List<CommentResponse> getComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId) {
         return commentService.getAll(userId, postId);
     }
 
