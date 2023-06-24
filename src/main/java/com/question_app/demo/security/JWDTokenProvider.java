@@ -45,4 +45,10 @@ public class JWDTokenProvider {
 
     }
 
+    public String generateJwtTokenByUserName(Long userId) {
+        Date expiredDate = new Date(new Date().getTime() + EXPIRES_IN);
+        return Jwts.builder().setSubject(Long.toString(userId))
+                .setIssuedAt(new Date()).setExpiration(expiredDate).
+                signWith(SignatureAlgorithm.HS256, APP_SECRET).compact();
+    }
 }
